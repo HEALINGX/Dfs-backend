@@ -5,6 +5,7 @@ import com.Dtest.backend.model.DoctorProfileDetail;
 import com.Dtest.backend.model.DoctorDetailsDesc;
 import com.Dtest.backend.repository.DoctorDetailsDescRepo;
 import com.Dtest.backend.repository.DoctorProfileDetailRepo;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,4 +32,15 @@ public class DoctorProfileDetailService {
         return doctorDetailsDescRepository.findDoctorByCode(code);
     }
 
+    public Optional<DoctorProfileDetail> getDoctorProfileByCode(String code) {
+        return doctorProfileDetailRepository.findByCode(code);
+    }
+
+    @Transactional
+    public void deleteDoctorProfileByCode(String code) {
+        Optional<DoctorProfileDetail> doctorProfileOpt = doctorProfileDetailRepository.findById(code);
+        doctorProfileOpt.ifPresent(doctorProfileDetailRepository::delete);
+    }
+
 }
+

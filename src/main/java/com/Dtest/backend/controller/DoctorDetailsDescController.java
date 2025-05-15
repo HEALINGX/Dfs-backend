@@ -22,4 +22,6 @@ public class DoctorDetailsDescController {
         DoctorDetailsDesc saved = doctorDetailsDescService.saveOrUpdateDoctorDetailsDesc(doctorDetailsDesc);
         return ResponseEntity.ok(saved);
     }
+
+    
 }
