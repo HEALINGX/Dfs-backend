@@ -18,9 +18,4 @@ public interface DoctorProfileDetailRepo extends JpaRepository<DoctorProfileDeta
     @Query("SELECT dpd FROM DoctorProfileDetail dpd WHERE dpd.code = :code")
     Optional<DoctorProfileDetail> findByCode(@Param("code") String code);
 
-    @Modifying
-    @Query("DELETE FROM DoctorProfileDetail dpd WHERE dpd.code = :code")
-    void deleteByCode(@Param("code") String code);
-
-
 }
