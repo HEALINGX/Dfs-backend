@@ -48,12 +48,42 @@ public class DoctorProfileDetailService {
         existing.setBirthDate(dto.getBirthDate());
         existing.setHospitalCode(dto.getHospitalCode());
 
-        // อัพเดต doctorDetailsDescs
-        if (dto.getDoctorDetailsDescs() != null) {
-            // เคลียร์ของเก่า
-            existing.getDoctorDetailsDescs().clear();
+        // บันทึกและรีเทิร์น entity พร้อมความสัมพันธ์ครบถ้วน
+        DoctorProfileDetail saved = doctorProfileDetailRepo.save(existing);
 
-            // แปลง DTO เป็น entity และเชื่อมโยงกลับ
+        // บังคับโหลด doctorDetailsDescs (ถ้า fetch เป็น LAZY)
+        saved.getDoctorDetailsDescs().size();
+
+        return saved;
+    }
+
+
+
+    // คืน DTO (สำหรับ controller ส่ง response)
+    public Optional<DoctorProfileDetailDTO> getDoctorProfileDTOByCode(String code) {
+        return doctorProfileDetailRepo.findByCode(code)
+                .map(DoctorProfileDetailMapper::toDTO);
+    }
+
+
+    public DoctorProfileDetailDTO saveDoctorProfile(DoctorProfileDetailDTO dto) {
+        // แปลง DTO เป็น entity
+        DoctorProfileDetail entity = new DoctorProfileDetail();
+        entity.setCode(dto.getCode());
+        entity.setUserId(dto.getUserId());
+        entity.setTelephone(dto.getTelephone());
+        entity.setEmployeeId(dto.getEmployeeId());
+        entity.setLicenseId(dto.getLicenseId());
+        entity.setNameEng(dto.getNameEng());
+        entity.setActive(dto.isActive());
+        entity.setUpdateDate(dto.getUpdateDate());
+        entity.setUpdateTime(dto.getUpdateTime());
+        entity.setNationId(dto.getNationId());
+        entity.setNameThai(dto.getNameThai());
+        entity.setBirthDate(dto.getBirthDate());
+        entity.setHospitalCode(dto.getHospitalCode());
+
+        if (dto.getDoctorDetailsDescs() != null) {
             List<DoctorDetailsDesc> details = dto.getDoctorDetailsDescs().stream().map(detailDTO -> {
                 DoctorDetailsDesc detail = new DoctorDetailsDesc();
                 detail.setDoctorCode(detailDTO.getDoctorCode());
@@ -90,34 +120,22 @@ public class DoctorProfileDetailService {
                 detail.setInclude406Revenue(detailDTO.getInclude406Revenue());
                 detail.setTax406Calculation(detailDTO.getTax406Calculation());
 
-                // เชื่อมโยงกลับ
-                detail.setDoctorProfileDetail(existing);
+                detail.setDoctorProfileDetail(entity);
                 return detail;
-            }).toList();
+            }).collect(Collectors.toList());
 
-            existing.getDoctorDetailsDescs().addAll(details);
+            entity.setDoctorDetailsDescs(details);
         }
 
-        // บันทึกและรีเทิร์น entity พร้อมความสัมพันธ์ครบถ้วน
-        DoctorProfileDetail saved = doctorProfileDetailRepo.save(existing);
+        // Save entity
+        DoctorProfileDetail saved = doctorProfileDetailRepo.save(entity);
 
-        // (ถ้า fetch type เป็น LAZY อาจต้องโหลด doctorDetailsDescs เพิ่มเติมก่อน return)
-        saved.getDoctorDetailsDescs().size(); // บังคับโหลด (ถ้าจำเป็น)
+        // แปลง entity เป็น DTO ก่อน return
+        DoctorProfileDetailDTO savedDto = DoctorProfileDetailMapper.toDTO(saved);
 
-        return saved;
+        return savedDto;
     }
 
-
-    // คืน DTO (สำหรับ controller ส่ง response)
-    public Optional<DoctorProfileDetailDTO> getDoctorProfileDTOByCode(String code) {
-        return doctorProfileDetailRepo.findByCode(code)
-                .map(DoctorProfileDetailMapper::toDTO);
-    }
-
-
-    public DoctorProfileDetail saveOrUpdateDoctorProfile(DoctorProfileDetail doctorProfileDetail) {
-        return doctorProfileDetailRepo.save(doctorProfileDetail);
-    }
 
     public void deleteDoctorProfileByCode(String code) {
         doctorProfileDetailRepo.deleteById(code);

@@ -12,6 +12,4 @@ import java.util.Set;
 @Repository
 public interface DoctorDetailsDescRepo extends JpaRepository<DoctorDetailsDesc, String> {
 
-    @Query("SELECT d FROM DoctorDetailsDesc d JOIN d.doctorProfileDetail dpd WHERE dpd.code = :code")
-    List<DoctorDetailsDesc> findDoctorByCode(@Param("code") String code);
 }

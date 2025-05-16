@@ -15,6 +15,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/doctorProfiles")
 public class DoctorProfileDetailController {
 
@@ -29,9 +30,9 @@ public class DoctorProfileDetailController {
     }
 
     @PostMapping
-    public ResponseEntity<DoctorProfileDetail> createDoctorProfile(@RequestBody DoctorProfileDetail doctorProfileDetail) {
-        DoctorProfileDetail saved = doctorProfileDetailService.saveOrUpdateDoctorProfile(doctorProfileDetail);
-        return ResponseEntity.ok(saved);
+    public ResponseEntity<DoctorProfileDetailDTO> createDoctorProfile(@RequestBody DoctorProfileDetailDTO dto) {
+        DoctorProfileDetailDTO savedDto = doctorProfileDetailService.saveDoctorProfile(dto);
+        return ResponseEntity.ok(savedDto);
     }
 
     @PutMapping("/{code}")
