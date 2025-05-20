@@ -1,10 +1,8 @@
 package com.Dtest.backend.service;
 
-import com.Dtest.backend.dto.DoctorDetailDescDTO;
-import com.Dtest.backend.dto.DoctorDetailsDescDTO;
+import com.Dtest.backend.dto.DoctorDetailsDescSummaryDTO;
 import com.Dtest.backend.mapper.DoctorDetailsDescMapper;
 import com.Dtest.backend.model.DoctorDetailsDesc;
-import com.Dtest.backend.model.DoctorProfileDetail;
 import com.Dtest.backend.repository.DoctorDetailsDescRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +16,7 @@ public class DoctorDetailsDescService {
     private DoctorDetailsDescRepo doctorDetailsDescRepo;
 
 
-    public DoctorDetailDescDTO saveDoctorDetailsDesc(DoctorDetailDescDTO dto) {
+    public DoctorDetailsDescSummaryDTO saveDoctorDetailsDesc(DoctorDetailsDescSummaryDTO dto) {
         // แปลง DTO เป็น Entity
         DoctorDetailsDesc entity = DoctorDetailsDescMapper.dtoToEntity(dto);
         // บันทึก Entity
@@ -29,13 +27,13 @@ public class DoctorDetailsDescService {
 
 
     // คืน DTO (สำหรับ controller ส่ง response)
-    public Optional<DoctorDetailDescDTO> getDoctorDetailsDescByCode(String doctorCode) {
+    public Optional<DoctorDetailsDescSummaryDTO> getDoctorDetailsDescByCode(String doctorCode) {
         return doctorDetailsDescRepo.findById(doctorCode)
                 .map(DoctorDetailsDescMapper::toDTO);
     }
 
     // Update ข้อมูลตาม doctorCode โดยใช้ DTO
-    public DoctorDetailDescDTO updateDoctorDetailsDesc(String doctorCode, DoctorDetailDescDTO dto) {
+    public DoctorDetailsDescSummaryDTO updateDoctorDetailsDesc(String doctorCode, DoctorDetailsDescSummaryDTO dto) {
         Optional<DoctorDetailsDesc> existingOpt = doctorDetailsDescRepo.findById(doctorCode);
         if (existingOpt.isEmpty()) {
             throw new RuntimeException("DoctorDetailsDesc not found");
@@ -95,7 +93,7 @@ public class DoctorDetailsDescService {
     }
 
     // แปลง DTO → Entity
-    private DoctorDetailsDesc dtoToEntity(DoctorDetailDescDTO dto) {
+    private DoctorDetailsDesc dtoToEntity(DoctorDetailsDescSummaryDTO dto) {
         DoctorDetailsDesc entity = new DoctorDetailsDesc();
         entity.setDoctorCode(dto.getDoctorCode());
         entity.setHospitalCode(dto.getHospitalCode());
@@ -135,8 +133,8 @@ public class DoctorDetailsDescService {
     }
 
     // แปลง Entity → DTO
-    private DoctorDetailDescDTO entityToDto(DoctorDetailsDesc entity) {
-        DoctorDetailDescDTO dto = new DoctorDetailDescDTO();
+    private DoctorDetailsDescSummaryDTO entityToDto(DoctorDetailsDesc entity) {
+        DoctorDetailsDescSummaryDTO dto = new DoctorDetailsDescSummaryDTO();
         dto.setDoctorCode(entity.getDoctorCode());
         dto.setHospitalCode(entity.getHospitalCode());
         dto.setDescription(entity.getDescription());
@@ -173,5 +171,6 @@ public class DoctorDetailsDescService {
 
         return dto;
     }
+
 }
 

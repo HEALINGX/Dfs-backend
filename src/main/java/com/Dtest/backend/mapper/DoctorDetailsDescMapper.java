@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 
 public class DoctorDetailsDescMapper {
 
-    public static DoctorDetailDescDTO toDTO(DoctorDetailsDesc entity) {
-        DoctorDetailDescDTO dto = new DoctorDetailDescDTO();
+    public static DoctorDetailsDescSummaryDTO toDTO(DoctorDetailsDesc entity) {
+        DoctorDetailsDescSummaryDTO dto = new DoctorDetailsDescSummaryDTO();
         dto.setDoctorCode(entity.getDoctorCode());
         dto.setHospitalCode(entity.getHospitalCode());
         dto.setDescription(entity.getDescription());
@@ -67,16 +67,16 @@ public class DoctorDetailsDescMapper {
         return dto;
     }
 
-    public static DepartmentDTO departmentToDTO(Department entity) {
-        DepartmentDTO dto = new DepartmentDTO();
+    public static DepartmentSummaryDTO departmentToDTO(Department entity) {
+        DepartmentSummaryDTO dto = new DepartmentSummaryDTO();
         dto.setDepartmentCode(entity.getDepartmentCode());
         dto.setDepartmentDesc(entity.getDepartmentDesc());
         dto.setActive(entity.isActive());
         return dto;
     }
 
-    public static FileDTO fileToDTO(File entity) {
-        FileDTO dto = new FileDTO();
+    public static FileSummaryDTO fileToDTO(File entity) {
+        FileSummaryDTO dto = new FileSummaryDTO();
         dto.setFileSource(entity.getFileSource());
         dto.setUpdateDate(entity.getUpdateDate());
         dto.setUpdateTime(entity.getUpdateTime());
@@ -84,8 +84,8 @@ public class DoctorDetailsDescMapper {
         return dto;
     }
 
-    public static GuaranteeDTO guaranteeToDTO(Guarantee entity) {
-        GuaranteeDTO dto = new GuaranteeDTO();
+    public static GuaranteeSummaryDTO guaranteeToDTO(Guarantee entity) {
+        GuaranteeSummaryDTO dto = new GuaranteeSummaryDTO();
         dto.setGuaranteeTypeCode(entity.getGuaranteeTypeCode());
         dto.setIsLumpSum(entity.getIsLumpSum());
         dto.setGuaranteeMethod(entity.getGuaranteeMethod());
@@ -106,8 +106,8 @@ public class DoctorDetailsDescMapper {
         return dto;
     }
 
-    public static NoteDTO noteToDTO(Note entity) {
-        NoteDTO dto = new NoteDTO();
+    public static NoteSummaryDTO noteToDTO(Note entity) {
+        NoteSummaryDTO dto = new NoteSummaryDTO();
         dto.setUserId(entity.getUserId());
         dto.setNoteSubject(entity.getNoteSubject());
         dto.setHbnCode(entity.getHbnCode());
@@ -117,7 +117,7 @@ public class DoctorDetailsDescMapper {
         return dto;
     }
 
-    public static DoctorDetailsDesc dtoToEntity(DoctorDetailDescDTO dto) {
+    public static DoctorDetailsDesc dtoToEntity(DoctorDetailsDescSummaryDTO dto) {
         if (dto == null) {
             return null;
         }

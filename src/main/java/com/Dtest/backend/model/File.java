@@ -1,5 +1,6 @@
 package com.Dtest.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,7 @@ public class File {
 
     @JsonProperty("UPDATE_TIME")
     @Column(name = "UPDATE_TIME")
+    @JsonFormat(pattern = "HH:mm:ss")
     private LocalTime updateTime;
 
     @JsonProperty("FILE_NAME")

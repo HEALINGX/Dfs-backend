@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Data
-public class NoteDTO {
+public class NoteSummaryDTO {
 
     @JsonProperty("USER_ID")
     private String userId;
@@ -26,8 +26,4 @@ public class NoteDTO {
 
     @JsonProperty("UPDATE_TIME")
     private LocalTime updateTime;
-
-    @JsonProperty("DOCTOR_CODE")
-    private String doctorCode;
-
 }

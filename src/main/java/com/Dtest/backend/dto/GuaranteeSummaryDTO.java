@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class GuaranteeDTO {
+public class GuaranteeSummaryDTO {
 
     @JsonProperty("GUARANTEE_TYPE_CODE")
     private String guaranteeTypeCode;
@@ -58,8 +58,5 @@ public class GuaranteeDTO {
 
     @JsonProperty("ACTIVE")
     private boolean active;
-
-    @JsonProperty("DOCTOR_CODE")
-    private String doctorCode;
 
 }

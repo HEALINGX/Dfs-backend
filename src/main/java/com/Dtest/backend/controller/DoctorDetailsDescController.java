@@ -1,6 +1,6 @@
 package com.Dtest.backend.controller;
 
-import com.Dtest.backend.dto.DoctorDetailDescDTO;
+import com.Dtest.backend.dto.DoctorDetailsDescSummaryDTO;
 import com.Dtest.backend.service.DoctorDetailsDescService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,28 +18,34 @@ public class DoctorDetailsDescController {
 
     // POST สร้างใหม่
     @PostMapping
-    public ResponseEntity<DoctorDetailDescDTO> createDoctorDetailsDesc(@RequestBody DoctorDetailDescDTO dto) {
-        DoctorDetailDescDTO savedDto = doctorDetailsDescService.saveDoctorDetailsDesc(dto);
+    public ResponseEntity<DoctorDetailsDescSummaryDTO> createDoctorDetailsDesc(@RequestBody DoctorDetailsDescSummaryDTO dto) {
+        DoctorDetailsDescSummaryDTO savedDto = doctorDetailsDescService.saveDoctorDetailsDesc(dto);
         return ResponseEntity.ok(savedDto);
     }
 
     // GET โดยใช้ doctorCode
     @GetMapping("/{doctorCode}")
-    public ResponseEntity<DoctorDetailDescDTO> getDoctorDetailsDesc(@PathVariable String doctorCode) {
-        Optional<DoctorDetailDescDTO> dtoOpt = doctorDetailsDescService.getDoctorDetailsDescByCode(doctorCode);
+    public ResponseEntity<DoctorDetailsDescSummaryDTO> getDoctorDetailsDesc(@PathVariable String doctorCode) {
+        Optional<DoctorDetailsDescSummaryDTO> dtoOpt = doctorDetailsDescService.getDoctorDetailsDescByCode(doctorCode);
         return dtoOpt.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // PUT อัพเดตข้อมูลตาม doctorCode
     @PutMapping("/{doctorCode}")
-    public ResponseEntity<DoctorDetailDescDTO> updateDoctorDetailsDesc(@PathVariable String doctorCode,
-                                                                        @RequestBody DoctorDetailDescDTO dto) {
+    public ResponseEntity<DoctorDetailsDescSummaryDTO> updateDoctorDetailsDesc(@PathVariable String doctorCode,
+                                                                               @RequestBody DoctorDetailsDescSummaryDTO dto) {
         try {
-            DoctorDetailDescDTO updatedDto = doctorDetailsDescService.updateDoctorDetailsDesc(doctorCode, dto);
+            DoctorDetailsDescSummaryDTO updatedDto = doctorDetailsDescService.updateDoctorDetailsDesc(doctorCode, dto);
             return ResponseEntity.ok(updatedDto);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @DeleteMapping("/{doctorCode}")
+    public ResponseEntity<Void> deleteDoctorDetailsDescByCode(@PathVariable String doctorCode) {
+        doctorDetailsDescService.deleteDoctorDetailsDescByCode(doctorCode);
+        return ResponseEntity.noContent().build();
     }
 }

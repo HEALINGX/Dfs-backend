@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
-public class DoctorDetailDescDTO {
+public class DoctorDetailsDescSummaryDTO {
 
     @JsonProperty("DOCTOR_CODE")
     private String doctorCode;
@@ -111,15 +111,18 @@ public class DoctorDetailDescDTO {
     @JsonProperty("DOCTOR_PROFILE_CODE")
     private String doctorProfileCode;
 
-    @JsonProperty("FILES")
-    private List<FileDTO> files;
+    @JsonProperty("DEPARTMENTS")
+    private List<DepartmentSummaryDTO> departments;
 
     @JsonProperty("GUARANTEES")
-    private List<GuaranteeDTO> guarantees;
-
-    @JsonProperty("DEPARTMENTS")
-    private List<DepartmentDTO> departments;
+    private List<GuaranteeSummaryDTO> guarantees;
 
     @JsonProperty("NOTES")
-    private List<NoteDTO> notes;
+    private List<NoteSummaryDTO> notes;
+
+    @JsonProperty("FILES")
+    private List<FileSummaryDTO> files;
+
+
+
 }
