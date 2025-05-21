@@ -1,18 +1,14 @@
 package com.Dtest.backend.controller;
 
 import com.Dtest.backend.dto.DoctorProfileDetailDTO;
-import com.Dtest.backend.model.DoctorDetailsDesc;
+import com.Dtest.backend.dto.DoctorProfileDetailSummaryDTO;
 import com.Dtest.backend.model.DoctorProfileDetail;
 import com.Dtest.backend.service.DoctorProfileDetailService;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -23,8 +19,8 @@ public class DoctorProfileDetailController {
     private DoctorProfileDetailService doctorProfileDetailService;
 
     @GetMapping("/{code}")
-    public ResponseEntity<DoctorProfileDetailDTO> getDoctorProfile(@PathVariable String code) {
-        Optional<DoctorProfileDetailDTO> dtoOpt = doctorProfileDetailService.getDoctorProfileDTOByCode(code);
+    public ResponseEntity<DoctorProfileDetailSummaryDTO> getDoctorProfile(@PathVariable String code) {
+        Optional<DoctorProfileDetailSummaryDTO> dtoOpt = doctorProfileDetailService.getDoctorProfileDTOByCode(code);
         return dtoOpt.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -37,7 +33,7 @@ public class DoctorProfileDetailController {
 
     @PutMapping("/{code}")
     public ResponseEntity<DoctorProfileDetail> updateDoctorProfile(@PathVariable String code,
-                                                                   @RequestBody DoctorProfileDetailDTO dto) {
+                                                                   @RequestBody DoctorProfileDetailSummaryDTO dto) {
         try {
             DoctorProfileDetail updated = doctorProfileDetailService.updateDoctorProfileFromDTO(code, dto);
             return ResponseEntity.ok(updated);

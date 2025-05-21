@@ -1,7 +1,7 @@
 package com.Dtest.backend.mapper;
 
 import com.Dtest.backend.dto.DoctorDetailsDescDTO;
-import com.Dtest.backend.dto.DoctorProfileDetailDTO;
+import com.Dtest.backend.dto.DoctorProfileDetailSummaryDTO;
 import com.Dtest.backend.model.DoctorDetailsDesc;
 import com.Dtest.backend.model.DoctorProfileDetail;
 
@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 
 public class DoctorProfileDetailMapper {
 
-    public static DoctorProfileDetailDTO toDTO(DoctorProfileDetail entity) {
-        DoctorProfileDetailDTO dto = new DoctorProfileDetailDTO();
+    public static DoctorProfileDetailSummaryDTO toDTO(DoctorProfileDetail entity) {
+        DoctorProfileDetailSummaryDTO dto = new DoctorProfileDetailSummaryDTO();
         dto.setCode(entity.getCode());
         dto.setUserId(entity.getUserId());
         dto.setTelephone(entity.getTelephone());
