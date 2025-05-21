@@ -6,14 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.query.sql.internal.ParameterRecognizerImpl;
+
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 @Data
 @NoArgsConstructor
@@ -133,7 +131,12 @@ public class DoctorDetailsDesc {
     @OneToMany(mappedBy = "doctorDetailsDesc", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Guarantee> guarantees = new ArrayList<>();
 
-    @OneToMany(mappedBy = "doctorDetailsDesc", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(
+            name = "doctor_details_department",
+            joinColumns = @JoinColumn(name = "doctor_code", referencedColumnName = "doctorCode"),
+            inverseJoinColumns = @JoinColumn(name = "department_code", referencedColumnName = "departmentCode")
+    )
     private List<Department> departments = new ArrayList<>();
 
     @OneToMany(mappedBy = "doctorDetailsDesc", cascade = CascadeType.ALL, orphanRemoval = true)

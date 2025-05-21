@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,8 +28,8 @@ public class Department {
     @JsonProperty("IS_ACTIVE")
     private boolean isActive;
 
-    @ManyToOne
-    @JoinColumn(name = "doctor_code", referencedColumnName = "doctorCode")
-    private DoctorDetailsDesc doctorDetailsDesc;
+    @ManyToMany(mappedBy = "departments")
+    private List<DoctorDetailsDesc> doctorDetailsDescs = new ArrayList<>();
+
 
 }
