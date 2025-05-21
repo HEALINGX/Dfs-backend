@@ -3,6 +3,8 @@ package com.Dtest.backend.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class DepartmentDTO {
 
@@ -15,6 +17,6 @@ public class DepartmentDTO {
     @JsonProperty("IS_ACTIVE")
     private boolean isActive;
 
-    @JsonProperty("DOCTOR_CODE")
-    private String doctorCode;
+//    @JsonProperty("DOCTOR_CODE")
+//    private List<String> doctorCode;
 }

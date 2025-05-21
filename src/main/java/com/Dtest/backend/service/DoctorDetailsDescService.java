@@ -1,12 +1,17 @@
 package com.Dtest.backend.service;
 
+import com.Dtest.backend.dto.DoctorDetailsDescDTO;
 import com.Dtest.backend.dto.DoctorDetailsDescSummaryDTO;
+import com.Dtest.backend.mapper.DoctorDescDepartmentMapper;
 import com.Dtest.backend.mapper.DoctorDetailsDescMapper;
+import com.Dtest.backend.model.Department;
 import com.Dtest.backend.model.DoctorDetailsDesc;
+import com.Dtest.backend.repository.DepartmentRepo;
 import com.Dtest.backend.repository.DoctorDetailsDescRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,14 +20,24 @@ public class DoctorDetailsDescService {
     @Autowired
     private DoctorDetailsDescRepo doctorDetailsDescRepo;
 
+    @Autowired
+    private DepartmentRepo departmentRepo;
 
-    public DoctorDetailsDescSummaryDTO saveDoctorDetailsDesc(DoctorDetailsDescSummaryDTO dto) {
-        // แปลง DTO เป็น Entity
-        DoctorDetailsDesc entity = DoctorDetailsDescMapper.dtoToEntity(dto);
-        // บันทึก Entity
+    public DoctorDetailsDescDTO saveDoctorDetailsDesc(DoctorDetailsDescDTO dto) {
+        // แปลง DTO → Entity ด้วย Mapper
+        DoctorDetailsDesc entity = DoctorDescDepartmentMapper.dtoToEntity(dto);
+
+        // ตั้งความสัมพันธ์ departments ด้วยการโหลดจาก repo
+        if (dto.getDepartmentCodes() != null && !dto.getDepartmentCodes().isEmpty()) {
+            List<Department> departments = departmentRepo.findAllById(dto.getDepartmentCodes());
+            entity.setDepartments(departments);
+        }
+
+        // บันทึก entity
         DoctorDetailsDesc saved = doctorDetailsDescRepo.save(entity);
-        // แปลง Entity เป็น DTO
-        return DoctorDetailsDescMapper.toDTO(saved);
+
+        // แปลง Entity → DTO ด้วย Mapper
+        return DoctorDescDepartmentMapper.toDTO(saved);
     }
 
 

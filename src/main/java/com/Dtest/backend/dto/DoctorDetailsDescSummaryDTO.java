@@ -123,6 +123,4 @@ public class DoctorDetailsDescSummaryDTO {
     @JsonProperty("FILES")
     private List<FileSummaryDTO> files;
 
-
-
 }

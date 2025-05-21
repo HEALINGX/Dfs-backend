@@ -1,14 +1,22 @@
 package com.Dtest.backend.mapper;
 
-import com.Dtest.backend.dto.*;
-import com.Dtest.backend.model.*;
+import com.Dtest.backend.dto.DoctorDetailsDescDTO;
+import com.Dtest.backend.model.DoctorDetailsDesc;
+import com.Dtest.backend.model.Department;
+import com.Dtest.backend.model.DoctorProfileDetail;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
-public class DoctorDetailsDescMapper {
+public class DoctorDescDepartmentMapper {
 
-    public static DoctorDetailsDescSummaryDTO toDTO(DoctorDetailsDesc entity) {
-        DoctorDetailsDescSummaryDTO dto = new DoctorDetailsDescSummaryDTO();
+    // แปลง Entity → DTO
+    public static DoctorDetailsDescDTO toDTO(DoctorDetailsDesc entity) {
+        if (entity == null) {
+            return null;
+        }
+
+        DoctorDetailsDescDTO dto = new DoctorDetailsDescDTO();
         dto.setDoctorCode(entity.getDoctorCode());
         dto.setHospitalCode(entity.getHospitalCode());
         dto.setDescription(entity.getDescription());
@@ -43,81 +51,23 @@ public class DoctorDetailsDescMapper {
         dto.setInclude406Revenue(entity.getInclude406Revenue());
         dto.setTax406Calculation(entity.getTax406Calculation());
 
+        // แปลง departments (ManyToMany) เป็น List<String> ของ departmentCode
+        if (entity.getDepartments() != null && !entity.getDepartments().isEmpty()) {
+            List<String> departmentCodes = entity.getDepartments().stream()
+                    .map(Department::getDepartmentCode)
+                    .collect(Collectors.toList());
+            dto.setDepartmentCodes(departmentCodes);
+        }
+
         if (entity.getDoctorProfileDetail() != null) {
             dto.setDoctorProfileCode(entity.getDoctorProfileDetail().getCode());
         }
 
-        // Mapping lists of related entities to their DTOs
-        dto.setFiles(entity.getFiles().stream()
-                .map(DoctorDetailsDescMapper::fileToDTO)
-                .collect(Collectors.toList()));
-
-        dto.setGuarantees(entity.getGuarantees().stream()
-                .map(DoctorDetailsDescMapper::guaranteeToDTO)
-                .collect(Collectors.toList()));
-
-        dto.setDepartments(entity.getDepartments().stream()
-                .map(DoctorDetailsDescMapper::departmentToDTO)
-                .collect(Collectors.toList()));
-
-        dto.setNotes(entity.getNotes().stream()
-                .map(DoctorDetailsDescMapper::noteToDTO)
-                .collect(Collectors.toList()));
-
         return dto;
     }
 
-    public static DepartmentSummaryDTO departmentToDTO(Department entity) {
-        DepartmentSummaryDTO dto = new DepartmentSummaryDTO();
-        dto.setDepartmentCode(entity.getDepartmentCode());
-        dto.setDepartmentDesc(entity.getDepartmentDesc());
-        dto.setActive(entity.isActive());
-        return dto;
-    }
-
-    public static FileSummaryDTO fileToDTO(File entity) {
-        FileSummaryDTO dto = new FileSummaryDTO();
-        dto.setFileSource(entity.getFileSource());
-        dto.setUpdateDate(entity.getUpdateDate());
-        dto.setUpdateTime(entity.getUpdateTime());
-        dto.setFileName(entity.getFileName());
-        return dto;
-    }
-
-    public static GuaranteeSummaryDTO guaranteeToDTO(Guarantee entity) {
-        GuaranteeSummaryDTO dto = new GuaranteeSummaryDTO();
-        dto.setGuaranteeTypeCode(entity.getGuaranteeTypeCode());
-        dto.setIsLumpSum(entity.getIsLumpSum());
-        dto.setGuaranteeMethod(entity.getGuaranteeMethod());
-        dto.setContractStartDate(entity.getContractStartDate());
-        dto.setContractExpireDate(entity.getContractExpireDate());
-        dto.setGuaranteeAmountHour(entity.getGuaranteeAmountHour());
-        dto.setExtraHour(entity.getExtraHour());
-        dto.setInGuaranteeAllocate(entity.getInGuaranteeAllocate());
-        dto.setOverGuaranteeAllocate(entity.getOverGuaranteeAllocate());
-        dto.setIncludeRevenueToDr(entity.getIncludeRevenueToDr());
-        dto.setRevenueForGuarantee(entity.getRevenueForGuarantee());
-        dto.setGuaranteeByDay(entity.getGuaranteeByDay());
-        dto.setAbsordExtraTaxType(entity.getAbsordExtraTaxType());
-        dto.setGuaranteeCategory(entity.getGuaranteeCategory());
-        dto.setEarlyTime(entity.getEarlyTime());
-        dto.setLateTime(entity.getLateTime());
-        dto.setActive(entity.isActive());
-        return dto;
-    }
-
-    public static NoteSummaryDTO noteToDTO(Note entity) {
-        NoteSummaryDTO dto = new NoteSummaryDTO();
-        dto.setUserId(entity.getUserId());
-        dto.setNoteSubject(entity.getNoteSubject());
-        dto.setHbnCode(entity.getHbnCode());
-        dto.setActive(entity.isActive());
-        dto.setUpdateDate(entity.getUpdateDate());
-        dto.setUpdateTime(entity.getUpdateTime());
-        return dto;
-    }
-
-    public static DoctorDetailsDesc dtoToEntity(DoctorDetailsDescSummaryDTO dto) {
+    // แปลง DTO → Entity
+    public static DoctorDetailsDesc dtoToEntity(DoctorDetailsDescDTO dto) {
         if (dto == null) {
             return null;
         }
@@ -157,7 +107,6 @@ public class DoctorDetailsDescMapper {
         entity.setInclude406Revenue(dto.getInclude406Revenue());
         entity.setTax406Calculation(dto.getTax406Calculation());
 
-        // เชื่อมโยง DoctorProfileDetail ผ่าน FK (ถ้ามี)
         if (dto.getDoctorProfileCode() != null) {
             DoctorProfileDetail profile = new DoctorProfileDetail();
             profile.setCode(dto.getDoctorProfileCode());
@@ -166,5 +115,4 @@ public class DoctorDetailsDescMapper {
 
         return entity;
     }
-
 }

@@ -108,4 +108,9 @@ public class DoctorDetailsDescDTO {
     @JsonProperty("TAX_40_6_CALCULATION")
     private String tax406Calculation;
 
+    @JsonProperty("DOCTOR_PROFILE_CODE")
+    private String doctorProfileCode;
+
+    @JsonProperty("DEPARTMENT_CODES")
+    private List<String> departmentCodes;
 }

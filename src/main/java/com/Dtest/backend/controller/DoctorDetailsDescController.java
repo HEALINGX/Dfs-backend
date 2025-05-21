@@ -1,5 +1,6 @@
 package com.Dtest.backend.controller;
 
+import com.Dtest.backend.dto.DoctorDetailsDescDTO;
 import com.Dtest.backend.dto.DoctorDetailsDescSummaryDTO;
 import com.Dtest.backend.service.DoctorDetailsDescService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,8 @@ public class DoctorDetailsDescController {
 
     // POST สร้างใหม่
     @PostMapping
-    public ResponseEntity<DoctorDetailsDescSummaryDTO> createDoctorDetailsDesc(@RequestBody DoctorDetailsDescSummaryDTO dto) {
-        DoctorDetailsDescSummaryDTO savedDto = doctorDetailsDescService.saveDoctorDetailsDesc(dto);
+    public ResponseEntity<DoctorDetailsDescDTO> createDoctorDetailsDesc(@RequestBody DoctorDetailsDescDTO dto) {
+        DoctorDetailsDescDTO savedDto = doctorDetailsDescService.saveDoctorDetailsDesc(dto);
         return ResponseEntity.ok(savedDto);
     }
 
