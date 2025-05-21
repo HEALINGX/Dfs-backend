@@ -81,8 +81,8 @@ public class NoteService {
         return entityToDto(saved);
     }
 
-
     public void deleteNoteById(Long id) {
+
         noteRepository.deleteById(id);
     }
 }
