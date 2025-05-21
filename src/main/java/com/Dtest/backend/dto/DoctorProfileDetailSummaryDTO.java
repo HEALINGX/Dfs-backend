@@ -5,9 +5,10 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Data
-public class DoctorProfileDetailDTO {
+public class DoctorProfileDetailSummaryDTO {
 
     @JsonProperty("CODE")
     private String code;
@@ -47,4 +48,8 @@ public class DoctorProfileDetailDTO {
 
     @JsonProperty("HOSPITAL_CODE")
     private String hospitalCode;
+
+    @JsonProperty("doctorDetailsDescs")
+    private List<DoctorDetailsDescDTO> doctorDetailsDescs;
+
 }
