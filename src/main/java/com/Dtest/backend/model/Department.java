@@ -31,5 +31,4 @@ public class Department {
     @ManyToMany(mappedBy = "departments")
     private List<DoctorDetailsDesc> doctorDetailsDescs = new ArrayList<>();
 
-
 }
