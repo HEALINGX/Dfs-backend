@@ -30,4 +30,10 @@ public class FileController {
         return dtoOpt.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteGuarantee(@PathVariable long id) {
+        fileService.deleteFileById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
