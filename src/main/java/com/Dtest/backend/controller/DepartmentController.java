@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.List;
 
 @RestController
 @CrossOrigin("*")
@@ -25,6 +26,11 @@ public class DepartmentController {
         return ResponseEntity.ok(savedDto);
     }
 
+    @GetMapping
+    public List<DepartmentDTO> getAllDepartments() {
+        return departmentService.getAllDepartments();
+    }
+
     // GET โดย departmentCode
     @GetMapping("/{departmentCode}")
     public ResponseEntity<DepartmentDTO> getDepart(@PathVariable String departmentCode) {
@@ -33,5 +39,16 @@ public class DepartmentController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-
+    @PutMapping("/{departmentCode}")
+    public ResponseEntity<DepartmentDTO> updateDepartment(
+            @PathVariable String departmentCode,
+            @RequestBody DepartmentDTO dto) {
+        try {
+            DepartmentDTO updatedDto = departmentService.updateDepartment(departmentCode, dto);
+            return ResponseEntity.ok(updatedDto);
+        } catch (RuntimeException ex) {
+            // ถ้าไม่เจอ department หรือ error อื่น ๆ
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

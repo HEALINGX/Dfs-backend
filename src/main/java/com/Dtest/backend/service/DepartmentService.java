@@ -1,8 +1,10 @@
 package com.Dtest.backend.service;
 
 import com.Dtest.backend.dto.DepartmentDTO;
+import com.Dtest.backend.dto.GuaranteeDTO;
 import com.Dtest.backend.model.Department;
 import com.Dtest.backend.model.DoctorDetailsDesc;
+import com.Dtest.backend.model.Guarantee;
 import com.Dtest.backend.repository.DepartmentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,9 +26,34 @@ public class DepartmentService {
         return entityToDto(saved);
     }
 
+    public List<DepartmentDTO> getAllDepartments() {
+        return departmentRepo.findAll()
+                .stream()
+                .map(this::entityToDto)
+                .collect(Collectors.toList());
+    }
 
     public Optional<DepartmentDTO> getDepartmentById(String departmentCode) {
         return departmentRepo.findById(departmentCode).map(this::entityToDto);
+    }
+
+    public void updateEntityFromDto(Department entity, DepartmentDTO dto) {
+        // อัปเดต field ที่อนุญาตให้แก้ไขได้
+        if (dto.getDepartmentDesc() != null) {
+            entity.setDepartmentDesc(dto.getDepartmentDesc());
+        }
+
+        // ตัวอย่างการอัปเดต boolean
+        entity.setActive(dto.isActive());
+    }
+
+    // Update
+    public DepartmentDTO updateDepartment(String departmentCode, DepartmentDTO dto) {
+        Department existing = departmentRepo.findById(departmentCode)
+                .orElseThrow(() -> new RuntimeException("Department not found"));
+        updateEntityFromDto(existing, dto);
+        Department saved = departmentRepo.save(existing);
+        return entityToDto(saved);
     }
 
     // แปลง DTO → Entity
