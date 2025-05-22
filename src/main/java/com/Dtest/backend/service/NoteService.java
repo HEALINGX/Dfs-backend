@@ -24,6 +24,7 @@ public class NoteService {
         NoteDTO dto = new NoteDTO();
         dto.setUserId(entity.getUserId());
         dto.setNoteSubject(entity.getNoteSubject());
+        dto.setNoteContent(entity.getNoteContent());
         dto.setHbnCode(entity.getHbnCode());
         dto.setActive(entity.isActive());
         dto.setUpdateDate(entity.getUpdateDate());
@@ -40,6 +41,7 @@ public class NoteService {
     private void updateEntityFromDto(Note entity, NoteDTO dto) {
         entity.setUserId(dto.getUserId());
         entity.setNoteSubject(dto.getNoteSubject());
+        entity.setNoteContent(dto.getNoteContent());
         entity.setHbnCode(dto.getHbnCode());
         entity.setActive(dto.isActive());
         entity.setUpdateDate(dto.getUpdateDate());

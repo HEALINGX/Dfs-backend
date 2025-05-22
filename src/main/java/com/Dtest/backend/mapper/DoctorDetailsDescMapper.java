@@ -110,6 +110,7 @@ public class DoctorDetailsDescMapper {
         NoteSummaryDTO dto = new NoteSummaryDTO();
         dto.setUserId(entity.getUserId());
         dto.setNoteSubject(entity.getNoteSubject());
+        dto.setNoteContent(entity.getNoteContent());
         dto.setHbnCode(entity.getHbnCode());
         dto.setActive(entity.isActive());
         dto.setUpdateDate(entity.getUpdateDate());

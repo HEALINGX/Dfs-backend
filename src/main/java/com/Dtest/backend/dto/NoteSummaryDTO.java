@@ -15,6 +15,9 @@ public class NoteSummaryDTO {
     @JsonProperty("NOTE_SUBJECT")
     private String noteSubject;
 
+    @JsonProperty("NOTE_CONTENT")
+    private String noteContent;
+
     @JsonProperty("HBN_CODE")
     private String hbnCode;
 
