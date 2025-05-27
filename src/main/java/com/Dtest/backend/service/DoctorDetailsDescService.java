@@ -48,7 +48,7 @@ public class DoctorDetailsDescService {
     }
 
     // Update ข้อมูลตาม doctorCode โดยใช้ DTO
-    public DoctorDetailsDescSummaryDTO updateDoctorDetailsDesc(String doctorCode, DoctorDetailsDescSummaryDTO dto) {
+    public DoctorDetailsDescDTO updateDoctorDetailsDesc(String doctorCode, DoctorDetailsDescDTO dto) {
         Optional<DoctorDetailsDesc> existingOpt = doctorDetailsDescRepo.findById(doctorCode);
         if (existingOpt.isEmpty()) {
             throw new RuntimeException("DoctorDetailsDesc not found");
@@ -56,7 +56,7 @@ public class DoctorDetailsDescService {
         DoctorDetailsDesc existing = existingOpt.get();
 
         // แปลง dto เป็น entity ชั่วคราว
-        DoctorDetailsDesc updatedEntity = DoctorDetailsDescMapper.dtoToEntity(dto);
+        DoctorDetailsDesc updatedEntity = DoctorDescDepartmentMapper.dtoToEntity(dto);
 
         // อัพเดตฟิลด์ใน existing entity จาก updatedEntity
         existing.setHospitalCode(updatedEntity.getHospitalCode());
@@ -92,15 +92,19 @@ public class DoctorDetailsDescService {
         existing.setInclude406Revenue(updatedEntity.getInclude406Revenue());
         existing.setTax406Calculation(updatedEntity.getTax406Calculation());
 
-        // อัพเดตความสัมพันธ์ FK
-        existing.setDoctorProfileDetail(updatedEntity.getDoctorProfileDetail());
+        // อัพเดตความสัมพันธ์ FK - ใช้ List<String> ใน departmentCodes
+        if (dto.getDepartmentCodes() != null && !dto.getDepartmentCodes().isEmpty()) {
+            // โหลดแผนกที่เกี่ยวข้องจาก departmentCodes
+            List<Department> departments = departmentRepo.findAllById(dto.getDepartmentCodes());
+            existing.setDepartments(departments);  // กำหนดความสัมพันธ์กับแผนก
+        }
 
+        // บันทึกข้อมูลที่อัปเดตแล้ว
         DoctorDetailsDesc saved = doctorDetailsDescRepo.save(existing);
 
-        return DoctorDetailsDescMapper.toDTO(saved);
+        // แปลง entity ที่บันทึกแล้วกลับเป็น DTO
+        return DoctorDescDepartmentMapper.toDTO(saved);
     }
-
-
 
     // ลบข้อมูลตาม doctorCode
     public void deleteDoctorDetailsDescByCode(String doctorCode) {

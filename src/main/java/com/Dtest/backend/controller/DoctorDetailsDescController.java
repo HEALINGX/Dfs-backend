@@ -34,10 +34,10 @@ public class DoctorDetailsDescController {
 
     // PUT อัพเดตข้อมูลตาม doctorCode
     @PutMapping("/{doctorCode}")
-    public ResponseEntity<DoctorDetailsDescSummaryDTO> updateDoctorDetailsDesc(@PathVariable String doctorCode,
-                                                                               @RequestBody DoctorDetailsDescSummaryDTO dto) {
+    public ResponseEntity<DoctorDetailsDescDTO> updateDoctorDetailsDesc(@PathVariable String doctorCode,
+                                                                               @RequestBody DoctorDetailsDescDTO dto) {
         try {
-            DoctorDetailsDescSummaryDTO updatedDto = doctorDetailsDescService.updateDoctorDetailsDesc(doctorCode, dto);
+            DoctorDetailsDescDTO updatedDto = doctorDetailsDescService.updateDoctorDetailsDesc(doctorCode, dto);
             return ResponseEntity.ok(updatedDto);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
