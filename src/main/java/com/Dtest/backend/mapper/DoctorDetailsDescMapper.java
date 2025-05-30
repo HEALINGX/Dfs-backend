@@ -47,7 +47,6 @@ public class DoctorDetailsDescMapper {
             dto.setDoctorProfileCode(entity.getDoctorProfileDetail().getCode());
         }
 
-        // Mapping lists of related entities to their DTOs
         dto.setFiles(entity.getFiles().stream()
                 .map(DoctorDetailsDescMapper::fileToDTO)
                 .collect(Collectors.toList()));
@@ -158,7 +157,6 @@ public class DoctorDetailsDescMapper {
         entity.setInclude406Revenue(dto.getInclude406Revenue());
         entity.setTax406Calculation(dto.getTax406Calculation());
 
-        // เชื่อมโยง DoctorProfileDetail ผ่าน FK (ถ้ามี)
         if (dto.getDoctorProfileCode() != null) {
             DoctorProfileDetail profile = new DoctorProfileDetail();
             profile.setCode(dto.getDoctorProfileCode());

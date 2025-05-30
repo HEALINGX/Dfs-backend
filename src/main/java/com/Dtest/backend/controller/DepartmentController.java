@@ -47,7 +47,6 @@ public class DepartmentController {
             DepartmentDTO updatedDto = departmentService.updateDepartment(departmentCode, dto);
             return ResponseEntity.ok(updatedDto);
         } catch (RuntimeException ex) {
-            // ถ้าไม่เจอ department หรือ error อื่น ๆ
             return ResponseEntity.notFound().build();
         }
     }

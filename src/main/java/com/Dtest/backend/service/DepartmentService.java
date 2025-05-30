@@ -38,16 +38,16 @@ public class DepartmentService {
     }
 
     public void updateEntityFromDto(Department entity, DepartmentDTO dto) {
-        // อัปเดต field ที่อนุญาตให้แก้ไขได้
+
         if (dto.getDepartmentDesc() != null) {
             entity.setDepartmentDesc(dto.getDepartmentDesc());
         }
 
-        // ตัวอย่างการอัปเดต boolean
+
         entity.setActive(dto.isActive());
     }
 
-    // Update
+
     public DepartmentDTO updateDepartment(String departmentCode, DepartmentDTO dto) {
         Department existing = departmentRepo.findById(departmentCode)
                 .orElseThrow(() -> new RuntimeException("Department not found"));

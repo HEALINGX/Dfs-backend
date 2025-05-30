@@ -27,16 +27,13 @@ public class DoctorDetailsDescService {
         // แปลง DTO → Entity ด้วย Mapper
         DoctorDetailsDesc entity = DoctorDescDepartmentMapper.dtoToEntity(dto);
 
-        // ตั้งความสัมพันธ์ departments ด้วยการโหลดจาก repo
         if (dto.getDepartmentCodes() != null && !dto.getDepartmentCodes().isEmpty()) {
             List<Department> departments = departmentRepo.findAllById(dto.getDepartmentCodes());
             entity.setDepartments(departments);
         }
 
-        // บันทึก entity
         DoctorDetailsDesc saved = doctorDetailsDescRepo.save(entity);
 
-        // แปลง Entity → DTO ด้วย Mapper
         return DoctorDescDepartmentMapper.toDTO(saved);
     }
 
@@ -55,10 +52,8 @@ public class DoctorDetailsDescService {
         }
         DoctorDetailsDesc existing = existingOpt.get();
 
-        // แปลง dto เป็น entity ชั่วคราว
         DoctorDetailsDesc updatedEntity = DoctorDescDepartmentMapper.dtoToEntity(dto);
 
-        // อัพเดตฟิลด์ใน existing entity จาก updatedEntity
         existing.setHospitalCode(updatedEntity.getHospitalCode());
         existing.setDescription(updatedEntity.getDescription());
         existing.setResign(updatedEntity.getResign());
@@ -92,21 +87,17 @@ public class DoctorDetailsDescService {
         existing.setInclude406Revenue(updatedEntity.getInclude406Revenue());
         existing.setTax406Calculation(updatedEntity.getTax406Calculation());
 
-        // อัพเดตความสัมพันธ์ FK - ใช้ List<String> ใน departmentCodes
+
         if (dto.getDepartmentCodes() != null && !dto.getDepartmentCodes().isEmpty()) {
-            // โหลดแผนกที่เกี่ยวข้องจาก departmentCodes
             List<Department> departments = departmentRepo.findAllById(dto.getDepartmentCodes());
-            existing.setDepartments(departments);  // กำหนดความสัมพันธ์กับแผนก
+            existing.setDepartments(departments);
         }
 
-        // บันทึกข้อมูลที่อัปเดตแล้ว
         DoctorDetailsDesc saved = doctorDetailsDescRepo.save(existing);
 
-        // แปลง entity ที่บันทึกแล้วกลับเป็น DTO
         return DoctorDescDepartmentMapper.toDTO(saved);
     }
 
-    // ลบข้อมูลตาม doctorCode
     public void deleteDoctorDetailsDescByCode(String doctorCode) {
         doctorDetailsDescRepo.deleteById(doctorCode);
     }
