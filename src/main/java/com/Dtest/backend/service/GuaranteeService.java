@@ -39,7 +39,6 @@ public class GuaranteeService {
         entity.setLateTime(dto.getLateTime());
         entity.setActive(dto.isActive());
 
-        // ตั้ง FK doctorDetailsDesc
         if (dto.getDoctorCode() != null) {
             DoctorDetailsDesc doctorDetailsDesc = doctorDetailsDescRepo.findById(dto.getDoctorCode())
                     .orElseThrow(() -> new RuntimeException("DoctorDetailsDesc not found"));

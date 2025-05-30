@@ -30,7 +30,6 @@ public class FileService {
         return entityToDto(saved);
     }
 
-    // หา entity ตาม id (สมมติ id เป็น Long หรือใช้ key อื่น)
     public Optional<FileDTO> getFileById(Long id) {
 
         return fileRepository.findById(id).map(this::entityToDto);

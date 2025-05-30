@@ -19,7 +19,6 @@ public class DoctorProfileDetailService {
     @Autowired
     private DoctorProfileDetailRepo doctorProfileDetailRepo;
 
-    // คืน Entity (ใช้ภายใน service สำหรับ save/update)
     public Optional<DoctorProfileDetail> getDoctorProfileByCode(String code) {
         return doctorProfileDetailRepo.findByCode(code);
     }
@@ -45,23 +44,17 @@ public class DoctorProfileDetailService {
         existing.setBirthDate(dto.getBirthDate());
         existing.setHospitalCode(dto.getHospitalCode());
 
-        // บันทึกและรีเทิร์น entity พร้อมความสัมพันธ์ครบถ้วน
         DoctorProfileDetail saved = doctorProfileDetailRepo.save(existing);
 
-        // บังคับโหลด doctorDetailsDescs (ถ้า fetch เป็น LAZY)
         saved.getDoctorDetailsDescs().size();
 
         return saved;
     }
 
-
-
-    // คืน DTO
     public Optional<DoctorProfileDetailSummaryDTO> getDoctorProfileDTOByCode(String code) {
         return doctorProfileDetailRepo.findByCode(code)
                 .map(DoctorProfileDetailMapper::toDTO);
     }
-
 
     public DoctorProfileDetailDTO saveDoctorProfile(DoctorProfileDetailDTO dto) {
         DoctorProfileDetail entity = new DoctorProfileDetail();
@@ -81,7 +74,6 @@ public class DoctorProfileDetailService {
 
         DoctorProfileDetail saved = doctorProfileDetailRepo.save(entity);
 
-        // แปลง entity เป็น DTO แบบ manual
         DoctorProfileDetailDTO savedDto = new DoctorProfileDetailDTO();
         savedDto.setCode(saved.getCode());
         savedDto.setUserId(saved.getUserId());
