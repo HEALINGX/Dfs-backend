@@ -1,6 +1,6 @@
 package com.Dtest.backend.mapper;
 
-import com.Dtest.backend.dto.DoctorDetailsDescDTO;
+import com.Dtest.backend.dto.DoctorProfileDescDTO;
 import com.Dtest.backend.dto.DoctorProfileDetailSummaryDTO;
 import com.Dtest.backend.model.DoctorDetailsDesc;
 import com.Dtest.backend.model.DoctorProfileDetail;
@@ -26,7 +26,7 @@ public class DoctorProfileDetailMapper {
         dto.setBirthDate(entity.getBirthDate());
         dto.setHospitalCode(entity.getHospitalCode());
 
-        List<DoctorDetailsDescDTO> details = entity.getDoctorDetailsDescs().stream()
+        List<DoctorProfileDescDTO> details = entity.getDoctorDetailsDescs().stream()
                 .map(DoctorProfileDetailMapper::toDTO)
                 .collect(Collectors.toList());
 
@@ -35,8 +35,8 @@ public class DoctorProfileDetailMapper {
         return dto;
     }
 
-    public static DoctorDetailsDescDTO toDTO(DoctorDetailsDesc entity) {
-        DoctorDetailsDescDTO dto = new DoctorDetailsDescDTO();
+    public static DoctorProfileDescDTO toDTO(DoctorDetailsDesc entity) {
+        DoctorProfileDescDTO dto = new DoctorProfileDescDTO();
         dto.setDoctorCode(entity.getDoctorCode());
         dto.setHospitalCode(entity.getHospitalCode());
         dto.setDescription(entity.getDescription());

@@ -50,6 +50,6 @@ public class DoctorProfileDetailSummaryDTO {
     private String hospitalCode;
 
     @JsonProperty("doctorDetailsDescs")
-    private List<DoctorDetailsDescDTO> doctorDetailsDescs;
+    private List<DoctorProfileDescDTO> doctorDetailsDescs;
 
 }
